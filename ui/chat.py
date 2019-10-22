@@ -42,10 +42,11 @@ class ChatWindow(Gtk.Window):
         master_box.pack_start(right_box, False, True, 0)
 
         avatar = Gtk.Image()
+        avatar.set_size_request(100, 100)
         avatar.set_from_file(
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
-                "gtk_chat_avatar.png"
+                "avatar.jpg"
             )
         )
         left_box.pack_start(avatar, False, True, 5)
