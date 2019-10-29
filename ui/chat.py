@@ -81,34 +81,43 @@ class ChatWindow(Gtk.Window):
         scroll_box.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         center_box.pack_start(scroll_box, True, True, 5)
 
-        chat_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        scroll_box.add(chat_box)
+        self.chat_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        scroll_box.add(self.chat_box)
         separator = Gtk.HSeparator()
         center_box.pack_start(separator, False, False, 5)
 
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            filename=os.path.join(
-                os.path.dirname(os.path.abspath(__file__)), "avatar.jpg"
-            ),
-            width = 40,
-            height = 40,
-            preserve_aspect_ratio=True,
-        )
+        
+        # pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
+        #     filename=os.path.join(
+        #         os.path.dirname(os.path.abspath(__file__)), "avatar.jpg"
+        #     ),
+        #     width = 40,
+        #     height = 40,
+        #     preserve_aspect_ratio=True,
+        # )
         
 
-        avatar1 = Gtk.Image.new_from_pixbuf(pixbuf)
+        # avatar1 = Gtk.Image.new_from_pixbuf(pixbuf)
         
-        message_box = Gtk.Box()
-        message_box.pack_start(avatar1, False, True, 5)
+        # message_box = Gtk.Box()
+        # message_box.pack_end(avatar1, False, True, 5)
 
-        input_message = Gtk.Frame()
-        chat_box.pack_start(input_message, False, True, 5)
+        # input_message = Gtk.Frame()
+        # self.chat_box.pack_start(input_message, False, True, 5)
 
-        input_message.add(message_box)
-        message_box.pack_start(
-            Gtk.Label(label="Hello!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-            ), True, False, 5
-        )
+        # test_message = Gtk.Label()
+        # test_message.set_markup(
+        #     "<b>ALWAYS</b> The scroll bar is always visible"
+        #     "<s>AUTOMATIC</s> ssssssssss ssssssssssssss ssssssssss"
+        #     "33333333333333333 33333333333333333333 33333333333333333"
+        #     )
+        # test_message.set_selectable(True)
+        # test_message.set_line_wrap(True)
+        # test_message.set_justify(Gtk.Justification.RIGHT)
+
+        # input_message.add(message_box)
+        # message_box.pack_start(test_message, True, False, 5
+        # )
 
         send_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         center_box.pack_start(send_box, False, True, 0)
@@ -129,7 +138,60 @@ class ChatWindow(Gtk.Window):
         # Проверить растягивание
         right_box.pack_start(favorit_label, False, True, 5)
 
+        test_input= {
+        "message": (
+            "he first step before we start with actual coding consists"
+            "of setting up PyGObject and its dependencies. PyGObject is"
+            "a Python module that enables developers to access GObject-based"
+            "libraries such as GTK+ within"
+            ),
+        "user": "Vasiya"
+        }
+
+        test_output= {
+        "message": (
+            "he !!!!!!!!!!!!!!!!!!! coding consists"
+            "of setting up PyGObject and its dependencies. PyGObject is"
+            "a Python module that enables developers to access GObject-based"
+            "libraries such as GTK+ within"
+            ),
+        "user": "Petiya"
+        }
+
+        self.__add_message_box(test_input)
+        self.__add_message_box(test_output, False)
+
         self.show_all()
+
+    def __add_message_box(self, data, input=True):
+        
+        message_frame = Gtk.Frame()
+        message_box = Gtk.Box()
+        message_frame.add(message_box)
+
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
+            filename=os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                f".contacts/{data['user']}.jpg" if input else "avatar.jpg"
+            ),
+            width = 40,
+            height = 40,
+            preserve_aspect_ratio=True,
+        )
+        avatar = Gtk.Image.new_from_pixbuf(pixbuf)
+        
+        message_box.pack_end(avatar, False, True, 5)
+        self.chat_box.pack_start(message_frame, False, True, 5)
+
+        test_message = Gtk.Label()
+        test_message.set_markup(data["message"])
+        test_message.set_selectable(True)
+        test_message.set_line_wrap(True)
+        if not input:
+            test_message.set_justify(Gtk.Justification.RIGHT)
+        message_box.pack_start(test_message, True, False, 5)
+
+        self.chat_box.pack_start(message_frame, False, True, 5)
 
     def regy_date(self):
         self.login.hide()
